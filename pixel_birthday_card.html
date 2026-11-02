@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffe6f0">
+<title>A little birthday gift ♡</title>
+<style>
+  :root {
+    --pink:#ffe6f0; --pink2:#ffc5dc; --hot:#e85d97; --ink:#572b49;
+    --cream:#fffafc; --lilac:#e8dcff; --shadow:#c783a5;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:
+    radial-gradient(circle at 15% 20%,#fff 0 2px,transparent 3px),
+    radial-gradient(circle at 80% 15%,#fff 0 2px,transparent 3px),
+    var(--pink); color:var(--ink); font-family:"Courier New",monospace;
+    display:flex;align-items:center;justify-content:center;padding:18px}
+  button,input{font:inherit}
+  .game{width:min(100%,520px);min-height:650px;background:var(--cream);
+    border:4px solid var(--ink);box-shadow:8px 8px 0 var(--shadow);
+    padding:22px 18px;position:relative;text-align:center;display:flex;
+    flex-direction:column;justify-content:center;overflow:hidden}
+  .topline{position:absolute;top:10px;left:12px;right:12px;display:flex;
+    justify-content:space-between;font-size:11px;letter-spacing:1px}
+  .screen{display:none;animation:pop .22s ease-out}
+  .screen.active{display:block}
+  @keyframes pop{from{opacity:.3;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+  .pixel-heart{font-size:64px;line-height:1.2;text-shadow:3px 3px 0 var(--pink2);margin:14px 0}
+  h1{font-size:clamp(25px,7vw,38px);line-height:1.15;margin:12px 0}
+  h2{font-size:24px;line-height:1.2;margin:12px 0}
+  p{line-height:1.65;font-size:14px}
+  .tiny{font-size:11px;letter-spacing:1px}
+  .btn{display:inline-block;border:3px solid var(--ink);background:var(--pink2);
+    color:var(--ink);box-shadow:4px 4px 0 var(--ink);padding:13px 16px;
+    margin:8px 4px;cursor:pointer;font-weight:bold;text-decoration:none}
+  .btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+  .btn.secondary{background:var(--lilac)}
+  input{width:100%;padding:14px;border:3px solid var(--ink);background:#fff;
+    color:var(--ink);margin:10px 0;text-align:center;outline:none}
+  .error{min-height:22px;color:#c02e68;font-size:12px}
+  .gifts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:20px 0}
+  .gift{border:3px solid var(--ink);background:#fff0f7;padding:12px 4px;
+    cursor:pointer;box-shadow:3px 3px 0 var(--shadow);color:var(--ink)}
+  .gift .emoji{display:block;font-size:38px;margin-bottom:8px}
+  .gift span:last-child{font-size:11px;font-weight:bold}
+  .letter{background:#fff1d8;border:2px dashed #c783a5;padding:18px;text-align:left;white-space:pre-line}
+  .photos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+  .photo{min-height:120px;border:3px solid var(--ink);background:var(--pink);
+    display:flex;align-items:center;justify-content:center;flex-direction:column;padding:8px}
+  .photo b{font-size:34px}.photo small{font-size:10px;margin-top:8px}
+  .music{border:3px solid var(--ink);padding:18px;background:var(--lilac);margin:16px 0}
+  .footer{position:absolute;bottom:8px;left:0;right:0;font-size:10px;opacity:.7}
+  @media(max-height:740px){.game{min-height:590px;padding-top:35px;padding-bottom:28px}}
+</style>
+</head>
+<body>
+<main class="game" aria-live="polite">
+  <div class="topline"><span>♡ PIXEL LOVE ♡</span><span id="counter">01 / 09</span></div>
+
+  <section class="screen active" id="home">
+    <div class="pixel-heart">💗</div>
+    <p class="tiny">A LITTLE GIFT FOR YOU</p>
+    <h1>HEY, <span data-name>YOUR PERSON</span>!</h1>
+    <p>I made something tiny, pink and full of love.</p>
+    <button class="btn" onclick="go('password')">OPEN ♡ →</button>
+  </section>
+
+  <section class="screen" id="password">
+    <div class="pixel-heart">🔐</div>
+    <p class="tiny">TOP SECRET • ONLY FOR YOU</p>
+    <h2>Enter the secret password</h2>
+    <p>Hint: <span id="hint">our special date / nickname</span></p>
+    <form id="passwordForm">
+      <input id="passwordInput" type="password" placeholder="type password here..." autocomplete="off" aria-label="Secret password">
+      <button class="btn" type="submit">UNLOCK ♡</button>
+    </form>
+    <div class="error" id="error" role="status"></div>
+    <button class="btn secondary" onclick="go('home')">← BACK</button>
+  </section>
+
+  <section class="screen" id="birthday">
+    <div class="pixel-heart">🎂</div>
+    <p class="tiny">QUEST UNLOCKED!</p>
+    <h1>HAPPY<br>BIRTHDAY!!</h1>
+    <p>Today is your day. Ready to open your little surprises?</p>
+    <button class="btn" onclick="go('choose')">START THE GAME →</button>
+  </section>
+
+  <section class="screen" id="choose">
+    <div class="pixel-heart">🎁</div>
+    <h2>Choose your gift!</h2>
+    <p>Pick one box to see what's inside ♡</p>
+    <div class="gifts">
+      <button class="gift" onclick="go('envelope')"><span class="emoji">💌</span><span>GIFT 01</span></button>
+      <button class="gift" onclick="go('memories')"><span class="emoji">📸</span><span>GIFT 02</span></button>
+      <button class="gift" onclick="go('song')"><span class="emoji">🎵</span><span>GIFT 03</span></button>
+    </div>
+    <p class="tiny">No wrong choices. Open them all!</p>
+  </section>
+
+  <section class="screen" id="envelope">
+    <div class="pixel-heart">💌</div>
+    <h2>A letter for you...</h2>
+    <p>Someone left a little message inside this envelope.</p>
+    <button class="btn" onclick="go('letter')">OPEN THE LETTER →</button>
+    <button class="btn secondary" onclick="go('choose')">← ALL GIFTS</button>
+  </section>
+
+  <section class="screen" id="letter">
+    <h2>Dear <span data-name>YOUR PERSON</span> ♡</h2>
+    <div class="letter" id="letterText">Happy birthday, my favourite person!
+
+I hope this new year of your life brings you soft days, loud laughter, lovely surprises and all the little things that make you happy.
+
+Thank you for being you. You deserve so much love — today and every day.
+
+With all my love,
+YOUR NAME ♡</div>
+    <button class="btn secondary" onclick="go('choose')">← ALL GIFTS</button>
+  </section>
+
+  <section class="screen" id="memories">
+    <div class="pixel-heart">📸</div>
+    <h2>Our little memories</h2>
+    <p>Replace these placeholders with your photos and captions.</p>
+    <div class="photos">
+      <div class="photo"><b>♡</b><small>PHOTO ONE</small></div>
+      <div class="photo"><b>✿</b><small>PHOTO TWO</small></div>
+      <div class="photo"><b>★</b><small>PHOTO THREE</small></div>
+      <div class="photo"><b>☁</b><small>PHOTO FOUR</small></div>
+    </div>
+    <button class="btn secondary" onclick="go('choose')">← ALL GIFTS</button>
+  </section>
+
+  <section class="screen" id="song">
+    <div class="pixel-heart">🎧</div>
+    <h2>A song for you</h2>
+    <div class="music"><div style="font-size:42px">♫ ♡ ♫</div><p id="songCaption">A little song that reminds me of you.</p></div>
+    <a class="btn" id="youtubeLink" href="https://www.youtube.com/" target="_blank" rel="noopener">PLAY ON YOUTUBE ↗</a>
+    <button class="btn secondary" onclick="go('choose')">← ALL GIFTS</button>
+  </section>
+
+  <section class="screen" id="ending">
+    <div class="pixel-heart">💖</div>
+    <p class="tiny">QUEST COMPLETE</p>
+    <h1>HAPPY BIRTHDAY!</h1>
+    <p>Three gifts, one big hug, and so much love for you.</p>
+    <p>May your next level be your best one yet ✨</p>
+    <button class="btn" onclick="go('choose')">OPEN GIFTS AGAIN ↻</button>
+    <button class="btn secondary" onclick="go('home')">START OVER</button>
+  </section>
+  <div class="footer">MADE WITH ♡ JUST FOR YOU</div>
+</main>
+
+<script>
+/* CUSTOMIZE THIS PART */
+const CONFIG = {
+  recipient: "YOUR PERSON",        // replace with their name/nickname
+  sender: "YOUR NAME",             // replace with your name
+  password: "pinkheart123",        // choose your secret password
+  hint: "our special date / nickname",
+  songUrl: "https://www.youtube.com/", // paste the exact song URL
+  songCaption: "A little song that reminds me of you."
+};
+/* END CUSTOMIZATION */
+
+document.querySelectorAll("[data-name]").forEach(el => el.textContent = CONFIG.recipient);
+document.getElementById("hint").textContent = CONFIG.hint;
+document.getElementById("songCaption").textContent = CONFIG.songCaption;
+document.getElementById("youtubeLink").href = CONFIG.songUrl;
+document.getElementById("letterText").textContent =
+`Happy birthday, ${CONFIG.recipient}!\n\nI hope this new year of your life brings you soft days, loud laughter, lovely surprises and all the little things that make you happy.\n\nThank you for being you. You deserve so much love — today and every day.\n\nWith all my love,\n${CONFIG.sender} ♡`;
+
+const order = ["home","password","birthday","choose","envelope","letter","memories","song","ending"];
+function go(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.getElementById("counter").textContent =
+    String(order.indexOf(id)+1).padStart(2,"0")+" / "+String(order.length).padStart(2,"0");
+  document.getElementById("error").textContent = "";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.getElementById("passwordForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  const entered = document.getElementById("passwordInput").value;
+  if(entered.trim().toLocaleLowerCase() === CONFIG.password.trim().toLocaleLowerCase()){
+    document.getElementById("passwordInput").value = "";
+    go("birthday");
+  } else {
+    document.getElementById("error").textContent = "Not quite! Try again, you can do it ♡";
+  }
+});
+</script>
+</body>
+</html>
